@@ -71,10 +71,10 @@
         }
       }
     },
-    "ApiLogGroup": {
+    "AppLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/CarrotSls-dev-api"
+        "LogGroupName": "/aws/lambda/CarrotServer-dev-app"
       }
     },
     "IamRoleLambdaExecution": {
@@ -102,7 +102,7 @@
               "Fn::Join": [
                 "-",
                 [
-                  "CarrotSls",
+                  "CarrotServer",
                   "dev",
                   "lambda"
                 ]
@@ -120,7 +120,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/CarrotSls-dev*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/CarrotServer-dev*:*"
                     }
                   ]
                 },
@@ -131,7 +131,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/CarrotSls-dev*:*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/CarrotServer-dev*:*:*"
                     }
                   ]
                 }
@@ -144,7 +144,7 @@
           "Fn::Join": [
             "-",
             [
-              "CarrotSls",
+              "CarrotServer",
               "dev",
               {
                 "Ref": "AWS::Region"
@@ -155,66 +155,16 @@
         }
       }
     },
-    "EnterpriseLogAccessIamRole": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                "AWS": "arn:aws:iam::802587217904:root"
-              },
-              "Action": "sts:AssumeRole",
-              "Condition": {
-                "StringEquals": {
-                  "sts:ExternalId": "ServerlessEnterprise-e0df39c7-a7ee-49a0-b093-f4269c40004d"
-                }
-              }
-            }
-          ]
-        },
-        "Policies": [
-          {
-            "PolicyName": "LogFilterAccess",
-            "PolicyDocument": {
-              "Version": "2012-10-17",
-              "Statement": [
-                {
-                  "Effect": "Allow",
-                  "Action": [
-                    "logs:FilterLogEvents"
-                  ],
-                  "Resource": [
-                    {
-                      "Fn::GetAtt": [
-                        "ApiLogGroup",
-                        "Arn"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    "ApiLambdaFunction": {
+    "AppLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": {
-            "Ref": "ServerlessDeploymentBucket"
-          },
-          "S3Key": "serverless/CarrotSls/dev/1723021425199-2024-08-07T09:03:45.199Z/CarrotSls.zip"
+          "ImageUri": "492094845066.dkr.ecr.ap-northeast-2.amazonaws.com/serverless-carrotserver-dev@sha256:da52017e46ba24989ef5b27d96bf91fac61a95481c4214c528eaa7e8a84ecd31"
         },
-        "Handler": "wsgi_handler.handler",
-        "Runtime": "python3.9",
-        "FunctionName": "CarrotSls-dev-api",
+        "PackageType": "Image",
+        "FunctionName": "CarrotServer-dev-app",
         "MemorySize": 1024,
-        "Timeout": 6,
+        "Timeout": 30,
         "Role": {
           "Fn::GetAtt": [
             "IamRoleLambdaExecution",
@@ -223,30 +173,24 @@
         }
       },
       "DependsOn": [
-        "ApiLogGroup"
+        "AppLogGroup"
       ]
     },
-    "ApiLambdaVersionQ4OUIaZId80iB64YXXGUNeuXBWcqLE64nNxmpp4M": {
+    "AppLambdaVersionwJlkScQFGq9U70m6PQFhkSlopcDay3c3XwyViMuNY": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "ApiLambdaFunction"
+          "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "is14YAipIsFBCycbkFOjheW2uJhYDlL72cuWpryZoOI="
+        "CodeSha256": "da52017e46ba24989ef5b27d96bf91fac61a95481c4214c528eaa7e8a84ecd31"
       }
     },
     "HttpApi": {
       "Type": "AWS::ApiGatewayV2::Api",
       "Properties": {
-        "Name": "dev-CarrotSls",
+        "Name": "dev-CarrotServer",
         "ProtocolType": "HTTP"
-      }
-    },
-    "HttpApiLogGroup": {
-      "Type": "AWS::Logs::LogGroup",
-      "Properties": {
-        "LogGroupName": "/aws/http-api/CarrotSls-dev"
       }
     },
     "HttpApiStage": {
@@ -259,25 +203,15 @@
         "AutoDeploy": true,
         "DefaultRouteSettings": {
           "DetailedMetricsEnabled": false
-        },
-        "AccessLogSettings": {
-          "DestinationArn": {
-            "Fn::GetAtt": [
-              "HttpApiLogGroup",
-              "Arn"
-            ]
-          },
-          "Format": "{\"requestTime\":\"$context.requestTime\",\"requestId\":\"$context.requestId\",\"apiId\":\"$context.apiId\",\"resourcePath\":\"$context.routeKey\",\"path\":\"$context.path\",\"httpMethod\":\"$context.httpMethod\",\"stage\":\"$context.stage\",\"status\":\"$context.status\",\"integrationStatus\":\"$context.integrationStatus\",\"integrationLatency\":\"$context.integrationLatency\",\"responseLatency\":\"$context.responseLatency\",\"responseLength\":\"$context.responseLength\",\"errorMessage\":\"$context.error.message\",\"format\":\"SLS_HTTP_API_LOG\",\"version\":\"1.0.0\"}"
         }
-      },
-      "DependsOn": "HttpApiLogGroup"
+      }
     },
-    "ApiLambdaPermissionHttpApi": {
+    "AppLambdaPermissionHttpApi": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "FunctionName": {
           "Fn::GetAtt": [
-            "ApiLambdaFunction",
+            "AppLambdaFunction",
             "Arn"
           ]
         },
@@ -309,7 +243,7 @@
         }
       }
     },
-    "HttpApiIntegrationApi": {
+    "HttpApiIntegrationApp": {
       "Type": "AWS::ApiGatewayV2::Integration",
       "Properties": {
         "ApiId": {
@@ -318,7 +252,7 @@
         "IntegrationType": "AWS_PROXY",
         "IntegrationUri": {
           "Fn::GetAtt": [
-            "ApiLambdaFunction",
+            "AppLambdaFunction",
             "Arn"
           ]
         },
@@ -339,13 +273,13 @@
             [
               "integrations",
               {
-                "Ref": "HttpApiIntegrationApi"
+                "Ref": "HttpApiIntegrationApp"
               }
             ]
           ]
         }
       },
-      "DependsOn": "HttpApiIntegrationApi"
+      "DependsOn": "HttpApiIntegrationApp"
     }
   },
   "Outputs": {
@@ -354,27 +288,16 @@
         "Ref": "ServerlessDeploymentBucket"
       },
       "Export": {
-        "Name": "sls-CarrotSls-dev-ServerlessDeploymentBucketName"
+        "Name": "sls-CarrotServer-dev-ServerlessDeploymentBucketName"
       }
     },
-    "EnterpriseLogAccessIamRole": {
-      "Value": {
-        "Fn::GetAtt": [
-          "EnterpriseLogAccessIamRole",
-          "Arn"
-        ]
-      },
-      "Export": {
-        "Name": "sls-CarrotSls-dev-EnterpriseLogAccessIamRole"
-      }
-    },
-    "ApiLambdaFunctionQualifiedArn": {
+    "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ApiLambdaVersionQ4OUIaZId80iB64YXXGUNeuXBWcqLE64nNxmpp4M"
+        "Ref": "AppLambdaVersionwJlkScQFGq9U70m6PQFhkSlopcDay3c3XwyViMuNY"
       },
       "Export": {
-        "Name": "sls-CarrotSls-dev-ApiLambdaFunctionQualifiedArn"
+        "Name": "sls-CarrotServer-dev-AppLambdaFunctionQualifiedArn"
       }
     },
     "HttpApiId": {
@@ -383,7 +306,7 @@
         "Ref": "HttpApi"
       },
       "Export": {
-        "Name": "sls-CarrotSls-dev-HttpApiId"
+        "Name": "sls-CarrotServer-dev-HttpApiId"
       }
     },
     "HttpApiUrl": {
@@ -408,7 +331,7 @@
         ]
       },
       "Export": {
-        "Name": "sls-CarrotSls-dev-HttpApiUrl"
+        "Name": "sls-CarrotServer-dev-HttpApiUrl"
       }
     }
   }
