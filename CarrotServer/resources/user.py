@@ -41,6 +41,17 @@ class UserRegisterResource(Resource) :
                 cursor.close()
                 connection.close()
                 return {'error': '이미 존재하는 이메일입니다.'}, 400
+            
+            # 이메일 중복 검사 쿼리
+            check_query = '''SELECT * FROM users WHERE nickname = %s'''
+            cursor = connection.cursor(dictionary=True)
+            cursor.execute(check_query, (data['nickname'],))
+            result = cursor.fetchone()
+
+            if result:
+                cursor.close()
+                connection.close()
+                return {'error': '이미 존재하는 닉네임입니다.'}, 400
 
             query = '''insert into users
                         (email,password,nickname,location)
