@@ -1,5 +1,5 @@
 {
-  "name": "CarrotSls",
+  "name": "CarrotServer",
   "version": "1.0.0",
   "description": "Example of a Python Flask API service with traditional Serverless Framework",
   "author": "",
