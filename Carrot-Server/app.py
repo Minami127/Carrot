@@ -1,4 +1,9 @@
 import serverless_wsgi
+
+import os
+os.environ["JOBLIB_MULTIPROCESSING"] = "0"
+os.environ["HOME"] = "/tmp"
+
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_restful import Api
@@ -11,6 +16,7 @@ from flask import Flask, jsonify, make_response
 app = Flask(__name__)
 
 api = Api(app)
+
 
 # 환경변수 셋팅
 
