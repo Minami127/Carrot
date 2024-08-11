@@ -34,7 +34,7 @@ public class HomeFragment extends Fragment {
 
         List<String> itemList = Arrays.asList("idd","item 2","item 3");
 
-        PostAdapter adapter = new PostAdapter(itemList);
+        PostAdapter adapter = new PostAdapter(getContext(),itemList);
         recyclerView.setAdapter(adapter);
 
         return view;

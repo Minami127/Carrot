@@ -1,5 +1,7 @@
 package com.example.carrotapp.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,14 +10,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.carrotapp.PostActivity;
 import com.example.carrotapp.R;
 
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     private List<String> itemList;
+    private Context context;
 
-    public PostAdapter(List<String> itemList) {
+    public PostAdapter(Context context,List<String> itemList) {
+        this.context = context;
         this.itemList = itemList;
     }
 
@@ -37,7 +42,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.textView.setText(itemList.get(position));
+        String postContent = itemList.get(position);
+        holder.textView.setText(postContent);
+
+        holder.textView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, PostActivity.class);
+            intent.putExtra("postContent",postContent);
+            context.startActivity(intent);
+        });
 
     }
 
