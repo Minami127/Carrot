@@ -1,5 +1,6 @@
 package com.example.carrotapp;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.carrotapp.config.Config;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -35,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
         favoriteListFragment = new FavoriteListFragment();
         chatFragment = new ChatFragment();
         profileFragment = new ProfileFragment();
+
+        SharedPreferences sp = getSharedPreferences(Config.PREFERENCE_NAME, MODE_PRIVATE);
+        int type = sp.getInt("type", 0);
+        Log.i("AAAAAAAAAAAAAA", "type : " + type);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
 

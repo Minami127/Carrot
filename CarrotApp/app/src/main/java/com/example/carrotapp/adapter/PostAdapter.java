@@ -2,12 +2,14 @@ package com.example.carrotapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.carrotapp.PostActivity;
@@ -25,10 +27,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView textView;
+        public CardView cardView;
         public ViewHolder(View itemView){
             super(itemView);
-            textView = itemView.findViewById(R.id.postItem);
+            cardView = itemView.findViewById(R.id.postItem);
+
         }
 
     }
@@ -43,9 +46,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String postContent = itemList.get(position);
-        holder.textView.setText(postContent);
 
-        holder.textView.setOnClickListener(view -> {
+
+        holder.cardView.setOnClickListener(view -> {
             Intent intent = new Intent(context, PostActivity.class);
             intent.putExtra("postContent",postContent);
             context.startActivity(intent);
