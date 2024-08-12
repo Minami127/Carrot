@@ -9,7 +9,7 @@ from flask_jwt_extended import JWTManager
 from flask_restful import Api
 from config import Config
 
-from resources.user import UserLoginResource, UserRegisterResource
+from resources.user import UserLoginResource, UserLogoutResource, UserRegisterResource
 from resources.boto3test import FileUploadResource
 
 from flask import Flask, jsonify, make_response
@@ -30,7 +30,7 @@ jwt = JWTManager(app)
 api.add_resource(UserRegisterResource, '/user/register')
 api.add_resource(UserLoginResource,'/user/login')
 api.add_resource(FileUploadResource,'/uploadimg')
-
+api.add_resource(UserLogoutResource,'/user/logout')
 
 @app.route("/")
 def hello_from_root():

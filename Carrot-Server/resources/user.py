@@ -134,6 +134,19 @@ class UserLoginResource(Resource) :
 
         return {"result" : "success"
                  , "accessToken" : access_token}
+    
+jwt_blocklist = set()
+class UserLogoutResource(Resource):
+    #jwt 필수
+    @jwt_required()
+    def delete(self):
+        jti = get_jwt()['jti']
+        print(jti)
+        
+        jwt_blocklist.add(jti)
+
+
+        return {"result" : "success"}, 200
 
         
 
