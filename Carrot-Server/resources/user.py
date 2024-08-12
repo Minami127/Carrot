@@ -130,10 +130,10 @@ class UserLoginResource(Resource) :
         if check == False :
             return {"error" : "비밀번호가 틀립니다."}, 400
         
-        # access_token = create_access_token(result_list[0]['id'])
+        access_token = create_access_token(result_list[0]['id'])
 
-        return {"result" : "success"}
-                # , "accessToken" : access_token},
+        return {"result" : "success"
+                 , "accessToken" : access_token}
 
         
 
