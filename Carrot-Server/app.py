@@ -11,6 +11,7 @@ from config import Config
 
 from resources.user import UserLoginResource, UserLogoutResource, UserRegisterResource
 from resources.boto3test import FileUploadResource
+from resources.post import PostListResource
 
 from flask import Flask, jsonify, make_response
 
@@ -31,6 +32,7 @@ api.add_resource(UserRegisterResource, '/user/register')
 api.add_resource(UserLoginResource,'/user/login')
 api.add_resource(FileUploadResource,'/uploadimg')
 api.add_resource(UserLogoutResource,'/user/logout')
+api.add_resource(PostListResource,'/post/list')
 
 @app.route("/")
 def hello_from_root():

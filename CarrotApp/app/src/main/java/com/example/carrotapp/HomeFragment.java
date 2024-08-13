@@ -9,14 +9,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.carrotapp.adapter.PostAdapter;
+import com.example.carrotapp.model.Post;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 
 public class HomeFragment extends Fragment {
+
+    RecyclerView recyclerView;
 
 
     public HomeFragment() {
@@ -29,10 +35,11 @@ public class HomeFragment extends Fragment {
 //      Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
+        recyclerView = view.findViewById(R.id.recyclerview);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        List<String> itemList = Arrays.asList("idd","item 2","item 3");
+        List<Post> itemList = new ArrayList<>();
 
         PostAdapter adapter = new PostAdapter(getContext(),itemList);
         recyclerView.setAdapter(adapter);
