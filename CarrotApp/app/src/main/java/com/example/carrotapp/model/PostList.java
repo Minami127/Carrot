@@ -5,6 +5,6 @@ import java.util.ArrayList;
 public class PostList {
 
     public String result;
-    public ArrayList<PostList> items;
+    public ArrayList<Post> items;
     public int count;
 }

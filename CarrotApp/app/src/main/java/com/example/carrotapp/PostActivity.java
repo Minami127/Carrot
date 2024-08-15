@@ -16,8 +16,8 @@ import androidx.core.view.WindowInsetsCompat;
 public class PostActivity extends AppCompatActivity {
 
     ImageButton imgBtn;
-    TextView txtView;
-    ImageView imgView;
+    TextView postPrice,postTitle,priceTag;
+    ImageView productImg;
 
 
     @Override
@@ -25,7 +25,11 @@ public class PostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
         imgBtn = findViewById(R.id.img_back_btn_post);
-//        txtView = findViewById(R.id.)
+        productImg = findViewById(R.id.product_image);
+        postPrice = findViewById(R.id.post_price);
+        postTitle = findViewById(R.id.post_title);
+        priceTag = findViewById(R.id.price_tag);
+
 
         EdgeToEdge.enable(this);
 

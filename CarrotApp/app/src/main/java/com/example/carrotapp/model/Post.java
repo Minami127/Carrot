@@ -1,7 +1,11 @@
 package com.example.carrotapp.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class Post implements Serializable {
     private int id;
@@ -13,9 +17,16 @@ public class Post implements Serializable {
     private String location;
     private int productState;
     private int viewCnt;
+    @SerializedName("product_image_url")
     private String productImageUrl;
+
+    @SerializedName("created_at")
     private String createdAt;
+
+
+    @SerializedName("updated_at")
     private String updatedAt;
+
 
     // Getters
     public Post(int id, int sellerId,int categoryId, String productImageUrl, String title,int price, String description,int productState, String createdAt, int viewCnt,String updatedAt,String location) {
@@ -80,6 +91,8 @@ public class Post implements Serializable {
     public String getLocation() {
         return location;
     }
+
+
 }
 
 

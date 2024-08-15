@@ -117,7 +117,7 @@ public class RegisterActivity extends AppCompatActivity {
                 UserApi api = retrofit.create(UserApi.class);
 
                 // 3. 보낼 데이터를 만든다.=> (묶음처리) :  클래스의 객체 생성
-                User user = new User(nickname,email,location,password,id);
+                User user = new User(nickname,email,location,password);
 
                 // 4. api 호출
                 Call<UserRes> call = api.register(user);

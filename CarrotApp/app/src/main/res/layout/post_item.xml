@@ -18,10 +18,13 @@
                 android:id="@+id/thumbNail"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
-                android:src="@drawable/baseline_photo_24"/>
+                android:scaleType="centerCrop"
+                android:src="@drawable/baseline_photo_24"
+                android:background="@drawable/rounded_corner"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:orientation="vertical">
                 <TextView
                     android:id="@+id/title"
@@ -43,7 +46,6 @@
                         android:text="지역"
                         android:textSize="13dp"/>
                     <TextView
-                        android:id="@+id/time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="·"
@@ -52,6 +54,7 @@
                         android:layout_marginStart="7dp"
                         android:layout_marginEnd="7dp"/>
                     <TextView
+                        android:id="@+id/time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="시간"
@@ -64,8 +67,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="가격"
-                    android:textSize="18dp"
-                    android:layout_marginTop="3dp"/>
+                    android:textSize="16dp"
+                    android:layout_marginTop="3dp"
+                    android:textStyle="bold"/>
 
 
 

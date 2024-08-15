@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 String email = login_email.getText().toString().trim();
                 String password = login_password.getText().toString().trim();
+
                 if (email.isEmpty() || password.isEmpty()){
                     Toast.makeText(LoginActivity.this,"항목을 모두 입력하세요",Toast.LENGTH_SHORT).show();
                     return;

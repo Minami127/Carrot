@@ -18,7 +18,14 @@ import com.example.carrotapp.PostActivity;
 import com.example.carrotapp.R;
 import com.example.carrotapp.model.Post;
 
+import java.text.NumberFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Locale;
+
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     private List<Post> itemList;
@@ -49,10 +56,48 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
     }
 
+
+    private String getRelativeTime(String inputDateTime) {
+        // Define the formatter based on the input format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        // Parse the input date-time string with seconds
+        LocalDateTime inputTime = LocalDateTime.parse(inputDateTime, formatter);
+
+        // Get the current date-time
+        LocalDateTime now = LocalDateTime.now();
+
+        // Calculate the duration between now and the input date-time
+        Duration duration = Duration.between(inputTime, now);
+
+        // Calculate the difference in various units
+        long seconds = duration.getSeconds();
+        long minutes = duration.toMinutes();
+        long hours = duration.toHours();
+        long days = duration.toDays();
+        long months = ChronoUnit.MONTHS.between(inputTime.toLocalDate(), now.toLocalDate());
+        long years = ChronoUnit.YEARS.between(inputTime.toLocalDate(), now.toLocalDate());
+
+        // Format the result based on the duration
+        if (seconds < 60) {
+            return seconds + "초 전";
+        } else if (minutes < 60) {
+            return minutes + "분 전";
+        } else if (hours < 24) {
+            return hours + "시간 전";
+        } else if (days < 30) {
+            return days + "일 전";
+        } else if (months < 12) {
+            return months + "개월 전";
+        } else {
+            return years + "년 전";
+        }
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -61,12 +106,37 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         Post post = itemList.get(position);
 
         holder.title.setText(post.getTitle());
-        holder.price.setText(String.valueOf(post.getPrice()));
+
+        // NumberFormat을 사용하여 가격 포맷팅
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.KOREA);
+        String formattedPrice = numberFormat.format(post.getPrice());
+        holder.price.setText(formattedPrice + "원");
 
         holder.location.setText(post.getLocation());
+
+        // createdAt을 사용하여 시간 정보 설정
+        String createdAt = post.getCreatedAt();
+        Log.d("PostAdapter", "Created At: " + createdAt);
+
+        if (createdAt != null && createdAt.contains("T")) {
+            // Convert date-time string from "yyyy-MM-ddTHH:mm:ss" to "yyyy-MM-dd HH:mm:ss"
+            String formattedDate = createdAt.replace("T", " ");
+            // Convert formattedDate to relative time
+            String relativeTime = getRelativeTime(formattedDate);
+            holder.time.setText(relativeTime);
+        } else {
+            holder.time.setText("시간 정보 없음");
+        }
+
+        // 로그 추가
+        Log.d("PostAdapter", "Binding item at position " + position);
+        Log.d("PostAdapter", "Image URL: " + post.getProductImageUrl());
+
         // 이미지 설정
         Glide.with(context)
                 .load(post.getProductImageUrl())
+                .placeholder(R.drawable.cuteboy) // 로딩 중에 표시할 이미지
+                .error(R.drawable.miku) // 에러 발생 시 표시할 이미지
                 .into(holder.thumbNail);
 
         holder.cardView.setOnClickListener(view -> {
@@ -74,12 +144,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
             intent.putExtra("postContent", post.getId()); // 원하는 데이터 전송
             context.startActivity(intent);
         });
-
-
-
-
-
     }
+
 
     @Override
     public int getItemCount() {

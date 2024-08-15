@@ -133,7 +133,8 @@ class UserLoginResource(Resource) :
         access_token = create_access_token(result_list[0]['id'])
 
         return {"result" : "success"
-                 , "accessToken" : access_token}
+                ,"userId": result_list[0]['id']
+                ,"accessToken" : access_token}
     
 jwt_blocklist = set()
 class UserLogoutResource(Resource):
