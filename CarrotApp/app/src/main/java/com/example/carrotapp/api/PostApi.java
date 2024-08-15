@@ -6,6 +6,7 @@ import com.example.carrotapp.model.PostList;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface PostApi {
@@ -16,7 +17,8 @@ public interface PostApi {
                                     @Query("offset") int offset,
                                     @Query("limit") int limit);
 
-    @GET("/post/detail")
-    Call<Post> getPostDetail(@Header("Authorization") String token);
+    // 게시글 상세조회 API
+    @GET("/post/detail/{id}")
+    Call<Post> getPostDetail(@Path("id") int id, @Header("Authorization") String token);
 
 }
