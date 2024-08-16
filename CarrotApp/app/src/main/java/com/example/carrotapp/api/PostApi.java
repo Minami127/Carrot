@@ -1,6 +1,6 @@
 package com.example.carrotapp.api;
 
-import com.example.carrotapp.model.Post;
+import com.example.carrotapp.model.PostDetail;
 import com.example.carrotapp.model.PostList;
 
 import retrofit2.Call;
@@ -19,6 +19,6 @@ public interface PostApi {
 
     // 게시글 상세조회 API
     @GET("/post/detail/{id}")
-    Call<Post> getPostDetail(@Path("id") int id, @Header("Authorization") String token);
+    Call<PostDetail> getPostDetail(@Path("id") int id, @Header("Authorization") String token);
 
 }

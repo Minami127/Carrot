@@ -131,6 +131,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         // 로그 추가
         Log.d("PostAdapter", "Binding item at position " + position);
         Log.d("PostAdapter", "Image URL: " + post.getProductImageUrl());
+        Log.d("PostAdapter", "Clicked Post ID: " + post.getId()); // 클릭한 ID 로그
+
+
 
         // 이미지 설정
         Glide.with(context)
@@ -140,10 +143,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                 .into(holder.thumbNail);
 
         holder.cardView.setOnClickListener(view -> {
+            Log.d("PostAdapter", "Clicked Post ID: " + post.getId()); // 클릭한 ID 로그
             Intent intent = new Intent(context, PostActivity.class);
-            intent.putExtra("postContent", post.getId()); // 원하는 데이터 전송
+            intent.putExtra("post", post); // Post 객체 전달
+//            intent.putExtra("id", post.getId()); // 원하는 데이터 전송
             context.startActivity(intent);
         });
+
+
+
     }
 
 

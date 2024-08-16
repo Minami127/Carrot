@@ -55,7 +55,42 @@ class PostListResource(Resource):
             result_list[i]['updated_at'] = row['updated_at'].isoformat()
         return {"result" : "success", "items" : result_list, "count" : len(result_list)}, 200
     
+class PostDetailResource(Resource) :
 
+    @jwt_required()
+    def get(self, id):
+
+
+        try :
+            connection = get_connection()
+
+            query = '''select p.id,seller_id,category_id,title,price,description,product_state,viewCnt,i.product_image_url,p.created_at,p.updated_at,p.location
+                        from products p
+                        left join product_image i ON p.id = i.product_id
+                        where p.id = %s;
+                        '''
+            
+            record = (id, )
+            cursor = connection.cursor(dictionary=True)
+            cursor.execute(query,record)
+
+            result_list = cursor.fetchall()
+
+            cursor.close()
+            connection.close()
+
+        except Error as e:
+            print(Error)
+            cursor.close()
+            connection.close()
+            return{"error" : str(e)},500 
+        
+        # 날짜 포맷 변경 
+        i = 0
+        for i, row in enumerate(result_list):
+            result_list[i]['created_at'] = row['created_at'].isoformat()
+            result_list[i]['updated_at'] = row['updated_at'].isoformat()
+        return {"result" : "success", "items" : result_list, "count" : len(result_list)}, 200
 
 
 

@@ -1,10 +1,11 @@
 package com.example.carrotapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,7 +22,11 @@ import com.example.carrotapp.api.NetworkClient;
 import com.example.carrotapp.api.PostApi;
 import com.example.carrotapp.config.Config;
 import com.example.carrotapp.model.Post;
-import com.example.carrotapp.model.PostList;
+import com.example.carrotapp.model.PostDetail;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,22 +35,29 @@ import retrofit2.Retrofit;
 
 public class PostActivity extends AppCompatActivity {
 
-    private int id;
     ImageButton imgBtn;
-    TextView postPrice,postTitle,priceTag,description;
+    TextView postPrice, postTitle, priceTag, description;
     ImageView productImg;
-
+    Button btn;
+    int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+
+
         imgBtn = findViewById(R.id.img_back_btn_post);
         productImg = findViewById(R.id.product_image);
         postPrice = findViewById(R.id.post_price);
         postTitle = findViewById(R.id.post_title);
         priceTag = findViewById(R.id.price_tag);
         description = findViewById(R.id.description);
+        btn = findViewById(R.id.chat_button);
+
+        Post post = (Post) getIntent().getSerializableExtra("post");
+        id = post.getId();
+
 
 
         EdgeToEdge.enable(this);
@@ -65,10 +77,16 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
-        id = getIntent().getIntExtra("id", -1);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PostActivity.this,ChatRoomActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
-        // 네트워크 데이터 요청
-        getNetworkData(); // 데이터 요청 추가
+        getNetworkData();
 
     }
 
@@ -76,47 +94,57 @@ public class PostActivity extends AppCompatActivity {
 
         Retrofit retrofit = NetworkClient.getRetrofitClient(PostActivity.this);
 
-        SharedPreferences sp = getSharedPreferences(Config.PREFERENCE_NAME, Context.MODE_PRIVATE);
-        String token = sp.getString("token", "");
-
         PostApi api = retrofit.create(PostApi.class);
 
-        Call<Post> call = api.getPost(id,"Bearer " + token);
+        SharedPreferences sp = getSharedPreferences(Config.PREFERENCE_NAME,MODE_PRIVATE);
+        String token = sp.getString("token", "");
 
-        call.enqueue(new Callback<Post>() {
+        Call<PostDetail> call = api.getPostDetail(id,"Bearer " + token);
+
+        call.enqueue(new Callback<PostDetail>() {
             @Override
-            public void onResponse(Call<Post> call, Response<Post> response) {
+            public void onResponse(Call<PostDetail> call, Response<PostDetail> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    // 성공적으로 데이터를 가져온 경우
-                    Post post = response.body();
-                    updateUI(post); // UI 업데이트 메서드 호출
+                    PostDetail postDetail = response.body();
+
+                    // items 배열의 첫 번째 아이템을 가져옴
+                    if (postDetail.items != null && !postDetail.items.isEmpty()) {
+                        PostDetail.Item firstItem = postDetail.items.get(0);
+                        int price = firstItem.getPrice();
+                        NumberFormat formatter = NumberFormat.getInstance(Locale.KOREA);
+                        String formattedPrice = formatter.format(price) + "원";
+                        postTitle.setText(firstItem.getTitle());
+                        postPrice.setText(formattedPrice);
+                        priceTag.setText(formattedPrice);
+                        description.setText(firstItem.getDescription());
+                        // 이미지 설정
+                        // 이미지 설정
+                        String imageUrl = firstItem.getProductImageUrl(); // 이미지 URL 가져오기
+                        Glide.with(PostActivity.this)
+                                .load(imageUrl)
+                                .placeholder(R.drawable.cuteboy) // 로딩 중 표시할 이미지
+                                .error(R.drawable.miku) // 에러 발생 시 표시할 이미지
+                                .into(productImg); // productImg는 ImageView의 ID
+
+
+                    } else {
+                        Log.d("PostActivity", "items가 비어 있습니다.");
+                    }
                 } else {
-                    // 오류 처리
-                    Toast.makeText(PostActivity.this, "게시글을 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
+                    Log.e("PostActivity", "응답 실패: " + response.code() + " - " + response.message());
+                    Toast.makeText(PostActivity.this, "응답 실패: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
+
             }
-
-
-
-
 
             @Override
-            public void onFailure(Call<Post> call, Throwable t) {
-
-                Toast.makeText(PostActivity.this,"데이터를 불러오는데 실패했습니다. 네트워크 상태를 확인해주세요.", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<PostDetail> call, Throwable t) {
+                Log.e("PostActivity", "API 호출 실패: " + t.getMessage());
+                Toast.makeText(PostActivity.this, "실패: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
-
-
         });
 
 
     }
 
-    private void updateUI(Post post) {
-        // UI 요소에 데이터 설정
-        postTitle.setText(post.getTitle());
-        description.setText(post.getDescription());
-        postPrice.setText(String.valueOf(post.getPrice()));
-        Glide.with(this).load(post.getProductImageUrl()).into(productImg);
-    }
 }

@@ -26,6 +26,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -91,6 +93,14 @@ public class HomeFragment extends Fragment {
                         postingArrayList.clear(); // 기존 리스트를 비움
                         postingArrayList.addAll(postingList.items); // 새로운 아이템 추가
                         count = postingList.count;
+
+                        // ID로 내림차순 정렬
+                        Collections.sort(postingArrayList, new Comparator<Post>() {
+                            @Override
+                            public int compare(Post post1, Post post2) {
+                                return Integer.compare(post2.getId(), post1.getId()); // ID 기준 내림차순
+                            }
+                        });
 
                         // 어댑터에 데이터 변경 알림
                         adapter.notifyDataSetChanged();

@@ -52,17 +52,17 @@
 
                     <TextView
                         android:id="@+id/post_title"
-                        android:layout_width="60dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="40dp"
-                        android:text="제목"
-                        android:textSize="28sp"
+                        android:layout_marginStart="60dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
-                        android:layout_marginStart="80dp"/>
+                        android:text="제목"
+                        android:textSize="28sp" />
 
                     <TextView
                         android:id="@+id/post_price"
-                        android:layout_width="60dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:text="가격"
                         android:textSize="28sp"
