@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "148017104887",
+    "project_id": "carrot-chat-a0f59",
+    "storage_bucket": "carrot-chat-a0f59.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148017104887:android:73aae09d31e6fb330990f2",
+        "android_client_info": {
+          "package_name": "com.example.carrotapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD83GL7GhwCfxOYQ7BChno_N8qlKaVGZl4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
