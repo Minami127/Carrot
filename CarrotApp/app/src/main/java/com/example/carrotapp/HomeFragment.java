@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,6 +41,7 @@ import retrofit2.Retrofit;
 public class HomeFragment extends Fragment {
 
     RecyclerView recyclerView;
+    Toolbar mainToolbar;
     ArrayList<Post> postingArrayList = new ArrayList<>();
     PostAdapter adapter;
     int offset = 0;
@@ -56,6 +59,8 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerview);
+
+
 
 
 

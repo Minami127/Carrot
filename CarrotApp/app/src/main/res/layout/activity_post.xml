@@ -24,7 +24,7 @@
                 android:id="@+id/img_back_btn_post"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
                 android:src="@drawable/new_back"
                 android:background="@color/white"/>
@@ -33,21 +33,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="7dp"
                 android:gravity="center">
 
                 <ImageView
                     android:id="@+id/product_image"
-                    android:layout_width="400dp"
-                    android:layout_height="300dp"
-                    android:layout_margin="5dp"
-                    android:src="@drawable/cuteboy"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/cuteboy"
+                    android:scaleType="centerCrop"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -85,57 +86,61 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@color/white"
+        android:background="@drawable/line_top"
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         android:layout_alignParentBottom="true">
 
         <ImageButton
             android:id="@+id/imageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
+            android:layout_marginStart="7dp"
             android:layout_marginTop="14dp"
-            android:layout_marginEnd="31dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="13dp"
             android:backgroundTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/price_tag"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
             app:srcCompat="@drawable/back_icon" />
-
-        <Button
-            android:id="@+id/chat_button"
-            android:layout_width="120dp"
-            android:layout_height="55dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="143dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="7dp"
-            android:text="채팅하기"
-            android:textSize="7pt"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/price_tag"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/price_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="31dp"
+            android:layout_marginStart="17dp"
             android:layout_marginTop="25dp"
             android:layout_marginBottom="24dp"
             android:text="가격"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageButton"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.666" />
+
+        <Button
+            android:id="@+id/chat_button"
+            android:layout_width="120dp"
+            android:layout_height="55dp"
+            android:layout_marginEnd="16dp"
+            android:text="채팅하기"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/price_tag"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.533" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 

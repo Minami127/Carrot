@@ -11,6 +11,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     FavoriteListFragment favoriteListFragment;
     ChatFragment chatFragment;
     ProfileFragment profileFragment;
+    Toolbar mainToolbar;
     ImageView img;
 
     @Override
@@ -33,10 +35,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btm = findViewById(R.id.bottom_navigation);
+        mainToolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(mainToolbar);
         homeFragment = new HomeFragment();
         favoriteListFragment = new FavoriteListFragment();
         chatFragment = new ChatFragment();
         profileFragment = new ProfileFragment();
+
 
         SharedPreferences sp = getSharedPreferences(Config.PREFERENCE_NAME, MODE_PRIVATE);
         int type = sp.getInt("type", 0);

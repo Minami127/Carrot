@@ -42,10 +42,5 @@ public class PostDetail {
             return price;
         }
 
-        // 추가적인 getter 메서드들...
     }
-
-
-
-
 }

@@ -125,6 +125,7 @@ public class PostActivity extends AppCompatActivity {
                                 .placeholder(R.drawable.cuteboy) // 로딩 중 표시할 이미지
                                 .error(R.drawable.miku) // 에러 발생 시 표시할 이미지
                                 .into(productImg); // productImg는 ImageView의 ID
+                        productImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
 
                     } else {

@@ -14,6 +14,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.carrotapp.PostActivity;
 import com.example.carrotapp.R;
 import com.example.carrotapp.model.Post;
@@ -140,6 +142,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
                 .load(post.getProductImageUrl())
                 .placeholder(R.drawable.cuteboy) // 로딩 중에 표시할 이미지
                 .error(R.drawable.miku) // 에러 발생 시 표시할 이미지
+                .apply(RequestOptions.bitmapTransform(new RoundedCorners(64)))
+                .apply(RequestOptions.fitCenterTransform())
                 .into(holder.thumbNail);
 
         holder.cardView.setOnClickListener(view -> {
