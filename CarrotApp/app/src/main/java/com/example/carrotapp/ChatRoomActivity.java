@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -14,10 +16,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.carrotapp.api.NetworkClient;
 import com.example.carrotapp.api.PostApi;
 import com.example.carrotapp.config.Config;
+import com.example.carrotapp.model.Post;
 import com.example.carrotapp.model.PostDetail;
+import com.example.carrotapp.model.PostList;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,6 +35,7 @@ import retrofit2.Retrofit;
 public class ChatRoomActivity extends AppCompatActivity {
 
     ImageButton backBtn;
+    TextView txtView;
     int id;
 
     @Override
@@ -35,53 +44,71 @@ public class ChatRoomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat_room);
 
         backBtn = findViewById(R.id.chat_back_btn);
+        txtView = findViewById(R.id.chat_user);
+
+        Post post = (Post) getIntent().getSerializableExtra("post");
+        id = post.getId();
+
+
+
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ChatRoomActivity.this, PostActivity.class);
+                intent.putExtra("post", post);
                 startActivity(intent);
                 finish();
             }
         });
 
         getNetworkData();
+
+
+
     }
 
 
     private void getNetworkData() {
 
         Retrofit retrofit = NetworkClient.getRetrofitClient(ChatRoomActivity.this);
+
         PostApi api = retrofit.create(PostApi.class);
+
         SharedPreferences sp = getSharedPreferences(Config.PREFERENCE_NAME,MODE_PRIVATE);
+
         String token = sp.getString("token", "");
 
         Call<PostDetail> call = api.getPostDetail(id,"Bearer " + token);
+        Log.i("ChatRoomActivity", "API 호출 시작: id=" + id + ", token=" + token);
 
         call.enqueue(new Callback<PostDetail>() {
             @Override
             public void onResponse(Call<PostDetail> call, Response<PostDetail> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    Log.i("ChatRoomActivity", "응답 수신: " + response.code());
                     PostDetail postDetail = response.body();
-
-                    if(postDetail.items != null && !postDetail.items.isEmpty()){
-
-
+                    // items 배열의 첫 번째 아이템을 가져옴
+                    if (postDetail.items != null && !postDetail.items.isEmpty()) {
+                        PostDetail.Item firstItem = postDetail.items.get(0);
+                        txtView.setText(firstItem.getNickname());
+                        Log.i("ChatRoomActivity", "첫 번째 아이템 닉네임: " + firstItem.getNickname()); // 닉네임 로그
                     } else {
-                        Log.d("ChatRoomActivity", "items가 비어 있습니다.");
+                        Log.i("CCCCC", "items가 비어 있습니다.");
                     }
-                }else {
-                    Log.e("ChatRoomActivity", "응답 실패: " + response.code() + " - " + response.message());
-                    Toast.makeText(ChatRoomActivity.this, "응답 실패: " + response.code(), Toast.LENGTH_SHORT).show();
+
                 }
 
             }
+
             @Override
             public void onFailure(Call<PostDetail> call, Throwable t) {
-                Log.e("ChatRoomActivity", "API 호출 실패: " + t.getMessage());
+                Log.e("CCCC", "API 호출 실패: " + t.getMessage());
                 Toast.makeText(ChatRoomActivity.this, "실패: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+
 
 
     }

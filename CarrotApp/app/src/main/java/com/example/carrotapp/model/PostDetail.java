@@ -1,8 +1,11 @@
 package com.example.carrotapp.model;
 
+import androidx.dynamicanimation.animation.SpringAnimation;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PostDetail {
+public class PostDetail implements Serializable {
 
     public String result;
 
@@ -21,6 +24,7 @@ public class PostDetail {
         private String created_at;
         private String updated_at;
         private String location;
+        private String nickname;
 
         // getters and setters
         public int getId() {
@@ -40,6 +44,10 @@ public class PostDetail {
         }
         public int getPrice() {
             return price;
+        }
+
+        public String getNickname(){
+            return nickname;
         }
 
     }

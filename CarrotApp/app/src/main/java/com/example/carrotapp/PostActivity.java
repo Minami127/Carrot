@@ -26,6 +26,7 @@ import com.example.carrotapp.model.PostDetail;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -40,6 +41,7 @@ public class PostActivity extends AppCompatActivity {
     ImageView productImg;
     Button btn;
     int id;
+    PostDetail postDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +57,10 @@ public class PostActivity extends AppCompatActivity {
         description = findViewById(R.id.description);
         btn = findViewById(R.id.chat_button);
 
+
         Post post = (Post) getIntent().getSerializableExtra("post");
         id = post.getId();
+
 
 
 
@@ -81,6 +85,7 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(PostActivity.this,ChatRoomActivity.class);
+                intent.putExtra("post", post);
                 startActivity(intent);
                 finish();
             }

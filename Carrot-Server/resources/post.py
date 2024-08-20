@@ -64,9 +64,10 @@ class PostDetailResource(Resource) :
         try :
             connection = get_connection()
 
-            query = '''select p.id,seller_id,category_id,title,price,description,product_state,viewCnt,i.product_image_url,p.created_at,p.updated_at,p.location
+            query = '''select p.id,seller_id,u.nickname,category_id,title,price,description,product_state,viewCnt,i.product_image_url,p.created_at,p.updated_at,p.location
                         from products p
                         left join product_image i ON p.id = i.product_id
+                        left join users u ON p.seller_id = u.id
                         where p.id = %s;
                         '''
             
