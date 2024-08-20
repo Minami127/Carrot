@@ -25,6 +25,7 @@ public class PostDetail implements Serializable {
         private String updated_at;
         private String location;
         private String nickname;
+        private String profile_img;
 
         // getters and setters
         public int getId() {
@@ -48,6 +49,10 @@ public class PostDetail implements Serializable {
 
         public String getNickname(){
             return nickname;
+        }
+
+        public String getProfile_img(){
+            return profile_img;
         }
 
     }
