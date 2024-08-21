@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences(Config.PREFERENCE_NAME, MODE_PRIVATE);
         String token = sp.getString("token", null);
         String userId = sp.getString("userId", null);
-        String profileImg = sp.getString("profileImg", null);
+        String profileImg = sp.getString("profile_img", null);
         int type = sp.getInt("type", 0);
 
         Log.i("UserRes", "Access Token: " + token);

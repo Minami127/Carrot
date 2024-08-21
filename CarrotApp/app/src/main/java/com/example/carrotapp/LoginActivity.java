@@ -97,10 +97,6 @@ public class LoginActivity extends AppCompatActivity {
                         Log.i("AAA","응답 code : " + response.code());
                         if (response.isSuccessful()){
                             UserRes userRes = response.body();
-                            Log.i("UserRes", "Access Token: " + userRes.accessToken);
-                            Log.i("UserRes", "User ID: " + userRes.userId);
-                            Log.i("UserRes", "Profile Image: " + userRes.profileImg);
-
 
                             SharedPreferences sp =
                                     getSharedPreferences(Config.PREFERENCE_NAME,MODE_PRIVATE);
@@ -112,8 +108,6 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putInt("type", 0);
                             editor.apply();
                             // 저장된 프로필 이미지 URL 로그 출력
-                            String savedProfileImgUrl = sp.getString("profile_img", null);
-                            Log.i("UserRes", "저장된 프로필 이미지 URL: " + savedProfileImgUrl);
 
 
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);

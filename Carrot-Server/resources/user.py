@@ -134,7 +134,7 @@ class UserLoginResource(Resource) :
 
         return {"result" : "success"
                 ,"userId" : result_list[0]['id']
-                ,"profile_img" : result_list[0]['profile_img']
+                ,"profileImg" : result_list[0]['profile_img']
                 ,"accessToken" : access_token}
     
 jwt_blocklist = set()
