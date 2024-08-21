@@ -6,7 +6,7 @@ class Config :
 
     PASSWORD_SALT = 'mianmaks11'
 
-    
+    ## 버킷
     S3_BUCKET = 'carrot-server-s3'
     S3_LOCATION = 'https://carrot-server-s3.s3.ap-northeast-2.amazonaws.com/'
 
