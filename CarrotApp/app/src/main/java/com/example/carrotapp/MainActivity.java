@@ -47,9 +47,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         SharedPreferences sp = getSharedPreferences(Config.PREFERENCE_NAME, MODE_PRIVATE);
+        String token = sp.getString("token", null);
+        String userId = sp.getString("userId", null);
+        String profileImg = sp.getString("profileImg", null);
         int type = sp.getInt("type", 0);
-        Log.i("AAAAAAAAAAAAAA", "type : " + type);
 
+        Log.i("UserRes", "Access Token: " + token);
+        Log.i("UserRes", "User ID: " + userId);
+        Log.i("UserRes", "Profile Image: " + profileImg);
+        Log.i("UserRes", "Type: " + type);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
 
         btm.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {

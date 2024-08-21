@@ -133,7 +133,8 @@ class UserLoginResource(Resource) :
         access_token = create_access_token(result_list[0]['id'])
 
         return {"result" : "success"
-                ,"userId": result_list[0]['id']
+                ,"userId" : result_list[0]['id']
+                ,"profile_img" : result_list[0]['profile_img']
                 ,"accessToken" : access_token}
     
 jwt_blocklist = set()

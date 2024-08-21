@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.carrotapp.api.NetworkClient;
 import com.example.carrotapp.api.UserApi;
 import com.example.carrotapp.config.Config;
@@ -46,6 +47,18 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         imgBtn = view.findViewById(R.id.miku);
+        SharedPreferences sp = getContext().getSharedPreferences(Config.PREFERENCE_NAME, Context.MODE_PRIVATE);
+        String profileImgUrl = sp.getString("profileImg", null);
+
+        Log.i("ProfileFragment", "저장된 프로필 이미지 URL: " + profileImgUrl);
+
+        // Glide를 사용하여 프로필 이미지 로드
+        if (profileImgUrl != null) {
+            Glide.with(this)
+                    .load(profileImgUrl) // 프로필 이미지 URL
+                    .into(imgBtn); // ImageButton에 설정
+        }
+
 
         imgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,8 +97,10 @@ public class ProfileFragment extends Fragment {
     private void onDestroyLogout() {
         SharedPreferences sp = getContext().getSharedPreferences(Config.PREFERENCE_NAME, Context.MODE_PRIVATE);
 
+
         String token = sp.getString("token", "");
         token = "Bearer " + token;
+
 
         Retrofit retrofit = NetworkClient.getRetrofitClient(getContext());
         UserApi api = retrofit.create(UserApi.class);
