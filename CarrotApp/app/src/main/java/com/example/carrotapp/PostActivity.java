@@ -122,7 +122,7 @@ public class PostActivity extends AppCompatActivity {
                         postPrice.setText(formattedPrice);
                         priceTag.setText(formattedPrice);
                         description.setText(firstItem.getDescription());
-                        // 이미지 설정
+
                         // 이미지 설정
                         String imageUrl = firstItem.getProductImageUrl(); // 이미지 URL 가져오기
                         Glide.with(PostActivity.this)

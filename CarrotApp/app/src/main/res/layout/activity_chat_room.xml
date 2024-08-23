@@ -50,6 +50,7 @@
         android:id="@+id/bottom_layout">
 
         <EditText
+            android:id="@+id/chat_send"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="메세지 보내기"
@@ -61,6 +62,7 @@
             android:layout_toLeftOf="@id/message_send_btn"/>
 
         <ImageButton
+
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@drawable/icon_send"

@@ -1,10 +1,14 @@
 package com.example.carrotapp;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     ProfileFragment profileFragment;
     Toolbar mainToolbar;
     TextView toolbarTitle;
+    ImageButton postAddBtn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
         chatFragment = new ChatFragment();
         profileFragment = new ProfileFragment();
         toolbarTitle = findViewById(R.id.toolbar_title);
+        postAddBtn = findViewById(R.id.post_add_btn);
+
+        postAddBtn.setVisibility(View.VISIBLE);
 
 
         SharedPreferences sp = getSharedPreferences(Config.PREFERENCE_NAME, MODE_PRIVATE);
@@ -57,6 +65,15 @@ public class MainActivity extends AppCompatActivity {
         Log.i("UserRes", "Profile Image: " + profileImg);
         Log.i("UserRes", "Type: " + type);
 
+        postAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, PostAddActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
 
         btm.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -65,19 +82,22 @@ public class MainActivity extends AppCompatActivity {
                 Fragment selectedFragment = null;
                 String title = ""; // 툴바 제목 초기화
 
-                // if 문으로 메뉴 아이템 선택 처리
                 if (item.getItemId() == R.id.menu_main) {
                     selectedFragment = homeFragment;
                     title = "홈";
-                } else if (item.getItemId() == R.id.favorite_list) {
-                    selectedFragment = favoriteListFragment;
-                    title = "즐겨찾기";
-                } else if (item.getItemId() == R.id.menu_chat) {
-                    selectedFragment = chatFragment;
-                    title = "채팅";
-                } else if (item.getItemId() == R.id.menu_profile) {
-                    selectedFragment = profileFragment;
-                    title = "프로필";
+                    postAddBtn.setVisibility(View.VISIBLE); // 홈 프래그먼트에서 버튼 보이기
+                } else {
+                    postAddBtn.setVisibility(View.GONE); // 다른 프래그먼트에서는 버튼 숨기기
+                    if (item.getItemId() == R.id.favorite_list) {
+                        selectedFragment = favoriteListFragment;
+                        title = "즐겨찾기";
+                    } else if (item.getItemId() == R.id.menu_chat) {
+                        selectedFragment = chatFragment;
+                        title = "채팅";
+                    } else if (item.getItemId() == R.id.menu_profile) {
+                        selectedFragment = profileFragment;
+                        title = "프로필";
+                    }
                 }
 
                 // 선택된 프래그먼트가 null이 아닐 경우 변경

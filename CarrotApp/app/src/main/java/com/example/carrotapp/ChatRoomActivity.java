@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,8 +35,9 @@ import retrofit2.Retrofit;
 
 public class ChatRoomActivity extends AppCompatActivity {
 
-    ImageButton backBtn;
+    ImageButton backBtn,sendBtn;
     TextView txtView;
+    EditText chatSend;
     int id;
 
     @Override
@@ -45,6 +47,8 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         backBtn = findViewById(R.id.chat_back_btn);
         txtView = findViewById(R.id.chat_user);
+        chatSend = findViewById(R.id.chat_send);
+        sendBtn = findViewById(R.id.message_send_btn);
 
         Post post = (Post) getIntent().getSerializableExtra("post");
         id = post.getId();
