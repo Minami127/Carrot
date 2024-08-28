@@ -10,10 +10,6 @@ from datetime import datetime
 
 class PostListResource(Resource):
 
-    # 포스팅
-    # @jwt_required()
-    # def post(self) :
-
     
     @jwt_required()
     def get(self) :
@@ -92,6 +88,38 @@ class PostDetailResource(Resource) :
             result_list[i]['created_at'] = row['created_at'].isoformat()
             result_list[i]['updated_at'] = row['updated_at'].isoformat()
         return {"result" : "success", "items" : result_list, "count" : len(result_list)}, 200
+    
+
+class PostAddResource(Resource) :
+
+    # 포스팅
+    @jwt_required()
+    def post(self) :
+
+
+        try :
+            connection = get_connection()
+
+            query = '''insert into products (seller_id, category_id, title, price, description, location, product_state) 
+                    values (%s,%s,%s,%s,%s,%s,%s);'''
+            
+            record = (id, )
+            cursor = connection.cursor(dictionary=True)
+            cursor.execute(query,record)
+
+            result_list = cursor.fetchall()
+
+            cursor.close()
+            connection.close()
+
+
+        except Error as e:
+            print(Error)
+            cursor.close()
+            connection.close()
+            return{"error" : str(e)},500 
+            
+
 
 
 

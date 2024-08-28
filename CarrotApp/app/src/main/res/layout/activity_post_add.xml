@@ -7,6 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".PostAddActivity">
 
-    
+    <ImageButton
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/add_box" />
+
 
 </RelativeLayout>
