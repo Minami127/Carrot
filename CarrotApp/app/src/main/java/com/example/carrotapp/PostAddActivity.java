@@ -22,5 +22,5 @@ public class PostAddActivity extends AppCompatActivity {
         });
     }
 
-    
+
 }
