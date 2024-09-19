@@ -17,17 +17,17 @@
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="안녕"
+            android:paddingStart="20dp"
+            android:textSize="23sp"
+            android:text="홈"
             android:textColor="@android:color/black"
-            android:layout_gravity="center"/>
+            android:layout_gravity="start"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="end"
-            android:paddingEnd="16dp">
+            android:layout_gravity="end">
 
             <ImageButton
                 android:layout_width="40dp"
