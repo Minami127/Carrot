@@ -10,7 +10,7 @@ from flask_restful import Api
 from config import Config
 
 from resources.user import UserLoginResource, UserLogoutResource, UserRegisterResource
-from resources.boto3test import FileUploadResource
+from resources.upload import FileUploadResource
 from resources.post import PostDetailResource, PostListResource
 
 from flask import Flask, jsonify, make_response
@@ -34,6 +34,7 @@ api.add_resource(FileUploadResource,'/uploadimg')
 api.add_resource(UserLogoutResource,'/user/logout')
 api.add_resource(PostListResource,'/post/list')
 api.add_resource(PostDetailResource,'/post/detail/<int:id>') # 상세보기
+api.add_resource(Post)
 
 @app.route("/")
 def hello_from_root():

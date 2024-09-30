@@ -107,7 +107,6 @@ class PostAddResource(Resource) :
             cursor = connection.cursor(dictionary=True)
             cursor.execute(query,record)
 
-            result_list = cursor.fetchall()
 
             cursor.close()
             connection.close()
@@ -118,6 +117,18 @@ class PostAddResource(Resource) :
             cursor.close()
             connection.close()
             return{"error" : str(e)},500 
+        
+# 게시글 삭제
+class DelectPostResource(Resource) :
+
+    @jwt_required()
+    def delect(self,products_id) :
+
+        
+
+
+
+
             
 
 
