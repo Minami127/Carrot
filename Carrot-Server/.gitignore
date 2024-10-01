@@ -1,6 +1,6 @@
-config.py
 node_modules/
 .serverless
+config.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
