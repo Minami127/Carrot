@@ -7,7 +7,6 @@ package.json
 package-lock.json
 requirements.txt
 serverless.yml
-utils.py
 README.md
 
 # Byte-compiled / optimized / DLL files
