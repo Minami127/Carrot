@@ -119,10 +119,10 @@ class PostAddResource(Resource) :
             return{"error" : str(e)},500 
         
 # 게시글 삭제
-class DelectPostResource(Resource) :
-
-    @jwt_required()
-    def delect(self,products_id) :
+#class DelectPostResource(Resource) :
+#
+#    @jwt_required()
+#    def delect(self,products_id) :
 
         
 
