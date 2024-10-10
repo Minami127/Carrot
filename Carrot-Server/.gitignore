@@ -1,6 +1,6 @@
 node_modules/
 .serverless
-config.py
+awsconfig.py
 Dockerfile
 .dockerignore
 package.json
